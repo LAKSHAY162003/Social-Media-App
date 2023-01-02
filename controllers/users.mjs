@@ -17,15 +17,27 @@ export const getUser = (req, res) => {
 
 export const getUserFriends = (req, res) => {
     const { id } = req.params;
-    User.findById(id, function (err, response) {
+    User.findById(id, async (err, user) =>{
         if (err) {
-            res.status(500).send(err + "");
+            res.status(500).json({ errMessage: `${err}` });
         }
         else {
-            res.status(201).send("helllo");
+            // Basically: time lag raha tha in sabko karke lane me 
+            // that is why we took them as async !!
+            const friends = await Promise.all(
+                user.friends.map((id) => User.findById(id))
+            );
+            const formattedFriends = friends.map(
+                ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+                    return { _id, firstName, lastName, occupation, location, picturePath };
+                }
+            );
+            res.status(200).json(formattedFriends);
         }
     })
 }
+
+
 
 
 export const addRemoveFriend = (req, res) => {
@@ -70,21 +82,27 @@ export const addRemoveFriend = (req, res) => {
             else {
                 result.friends.push(friendsId);
                 result.save();
-                User.findById(friendsId, function (err, result2) {
+                User.findById(friendsId, async (err, result2)=>{
                     if (err) {
                         res.status(500).json(err);
                     }
                     else {
                         result2.friends.push(id);
                         result2.save();
-                        res.status(201).send("Success in addition !!");
+                        const friends = await Promise.all(
+                            result.friends.map((id) => User.findById(id))
+                        );
+                        const formattedFriends = friends.map(
+                            ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+                                return { _id, firstName, lastName, occupation, location, picturePath };
+                            }
+                        );
+                        res.status(200).json(formattedFriends);
                     }
                 })
             }
 
         }
     })
-
-
 
 }

@@ -13,6 +13,8 @@ import {register} from "./controllers/auth.mjs";
 import authRoutes from "./routes/auth.mjs";
 import {verifyToken} from "./middleware/auth.mjs"
 import userRoutes from "./routes/users.mjs";
+import postRoutes from "./routes/posts.mjs";
+import {createPost} from "./controllers/posts.mjs";
 // config !!
 
 // fileUrlToPath is a function that converts a file URL to a file path. 
@@ -113,6 +115,13 @@ mongoose.connect(mongodb,(err)=>{
 
 // ROUTES : 
 app.post("/auth/register",upload.single("picture"),register);
+app.post("/posts",verifyToken,upload.single("picture"),createPost);
+// this is a request for uploading a post while other /posts route 
+// that we defined is nothing but : used to fetch all the posts that user
+// sees on his screen !!
+
+// Here : upload.single("picture") means that the uploaded 
+// createPost is a controller !!
 
 // Route for authentication and all !!
 app.use("/auth",authRoutes);
@@ -121,3 +130,4 @@ app.use("/auth",authRoutes);
 // club / wire up kar lenge !!
 
 app.use("/users",userRoutes);
+app.use("/posts",postRoutes);
