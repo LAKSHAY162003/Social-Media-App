@@ -10,6 +10,9 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import {register} from "./controllers/auth.mjs";
+import authRoutes from "./routes/auth.mjs";
+import {verifyToken} from "./middleware/auth.mjs"
+import userRoutes from "./routes/users.mjs";
 // config !!
 
 // fileUrlToPath is a function that converts a file URL to a file path. 
@@ -85,16 +88,17 @@ const upload=multer({storage});
 mongoose.set("strictQuery", false);
 const mongodb=process.env.URL;
 const PORT=3001;
+app.listen(PORT,()=>{
+    console.log("The App has started at Port :"+PORT);
+})
+
 // backend at 3001 and frontend at 3000  
 mongoose.connect(mongodb,(err)=>{
     if(err){
         console.log("Unsuccess !!"+err);
     }
     else{
-        app.listen(PORT,()=>{
-            console.log("The App has started at Port :"+PORT);
-            console.log("MongoDb is connected !!");
-        })
+        console.log("MongoDb is connected !!");
     }
 })
 
@@ -106,5 +110,14 @@ mongoose.connect(mongodb,(err)=>{
 // Note : upload is the middleware used for the picture upload using multer 
 // register is the 2nd middleware or we say the callback fnc over here 
 // Jis order me hoga ushi order me callbacks fire honge !!
+
+// ROUTES : 
 app.post("/auth/register",upload.single("picture"),register);
 
+// Route for authentication and all !!
+app.use("/auth",authRoutes);
+// Note : all the routes will be in the routes folder !!
+// meaning : base url ke corresponding sare urls : router object ki help se 
+// club / wire up kar lenge !!
+
+app.use("/users",userRoutes);
