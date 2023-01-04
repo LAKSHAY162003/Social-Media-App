@@ -5,6 +5,7 @@ import User from "../models/Users.mjs"
 // and then baad me : use karenge to make calls !!
 export const getUser = (req, res) => {
     let id = req.params.id;
+    console.log("hello Dear"+id);
     User.findById(id, function (err, response) {
         if (err) {
             res.status(500).send(err + "");
@@ -17,6 +18,7 @@ export const getUser = (req, res) => {
 
 export const getUserFriends = (req, res) => {
     const { id } = req.params;
+    // console.log("hello Dear"+id); Correct till here !!
     User.findById(id, async (err, user) =>{
         if (err) {
             res.status(500).json({ errMessage: `${err}` });

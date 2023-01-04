@@ -20,7 +20,7 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "../../state/index";
-import { useNavigate } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import { Container } from "@mui/system";
 
 import EarbudsIcon from '@mui/icons-material/Earbuds';
@@ -65,6 +65,7 @@ const Navbar = () => {
 
     // sx={{}} aise custom styles doge !!
     return (
+        <div>
         <Container maxWidth="sm">
             <Box>
                 <AppBar sx={{ backgroundColor: `${background}`}}>
@@ -106,9 +107,9 @@ const Navbar = () => {
                             <IconButton><MarkunreadIcon /></IconButton>
                             <IconButton><NotificationsActiveIcon /></IconButton>
                             <IconButton ><ContactSupportIcon /></IconButton>
-                            <FormControl variant="standard" value="Lakshay ">
+                            <FormControl variant="standard" value={user.firstName}>
                                 <Select
-                                    value="Lakshay "
+                                    value={user.firstName}
                                     sx={{
                                         backgroundColor: neutralLight,
                                         width: "150px",
@@ -124,8 +125,8 @@ const Navbar = () => {
                                     }}
                                     input={<InputBase />}
                                 >
-                                    <MenuItem value="Lakshay ">
-                                        <Typography>Lakshay </Typography>
+                                    <MenuItem value={user.firstName}>
+                                        <Typography>{user.firstName} </Typography>
                                     </MenuItem>
                                     <MenuItem onClick={() => {
                                         dispatch(setLogout())
@@ -191,53 +192,12 @@ const Navbar = () => {
                 </AppBar>
             </Box>
         </Container>
+        <Outlet/>
+        </div>
     )
 }
 
 
-function PositionedMenu() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    return (
-        <div>
-            <Button
-                id="demo-positioned-button"
-                aria-controls={open ? 'demo-positioned-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-            >
-                Dashboard
-            </Button>
-            <Menu
-                id="demo-positioned-menu"
-                aria-labelledby="demo-positioned-button"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-            >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-        </div>
-    );
-}
 
 export default Navbar;
 // all the function based components should be having 1st letter as capital only !!

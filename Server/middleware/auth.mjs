@@ -3,7 +3,10 @@ import dotenv from "dotenv";
 dotenv.config();
 export const verifyToken = (req, res, next) => {
     // console.log(req);
-    let token = req.rawHeaders[1];
+    
+    let token = req.rawHeaders[9];
+    // console.log("Hello Dear : "+token);
+    // [Symbol(kHeaders)].authorization;
     // So basically within header : we will be passing a Authorization also
     // using the axios : just like we did in other apis !!
     if (token) {
