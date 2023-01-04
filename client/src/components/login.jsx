@@ -12,15 +12,16 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useTheme } from '@emotion/react';
 
+// Our own imports !!
+import { useTheme } from '@emotion/react';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { IconButton } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { setMode } from '../state';
+import { useDispatch ,useNavigate} from 'react-redux';
 import { dark } from '@mui/material/styles/createPalette';
-
+import { setLogin ,setMode} from '../state/index';
+import Form from './form';
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -36,20 +37,14 @@ function Copyright() {
 
 
 export default function SignInSide() {
+  // const navigate=useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    // we can make a backend api call over here !!
-  };
+  
 
   return (
     <ThemeProvider theme={theme}>
+    
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
 
@@ -93,56 +88,12 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
+           
+            <Form/>
           </Box>
         </Grid>
       </Grid>
+      
     </ThemeProvider>
   );
 }

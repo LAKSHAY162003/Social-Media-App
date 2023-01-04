@@ -13,15 +13,31 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+// Our own imports !!
 import { useTheme } from '@emotion/react';
-
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { IconButton } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { setMode } from '../../state';
 import { dark } from '@mui/material/styles/createPalette';
+import {Formik} from "formik";
+import Dropzone from "react-dropzone";
+// used to drop images !!
+import { setLogin } from '../../state/index';
+import * as yup from "yup";
+ // Used for form validation !! {yup}
 
+
+const registerSchema=yup.object().shape({
+  firstName:yup.string().required("required"),
+  lastName:yup.string().required("required"),
+  email:yup.string().email("invalid email").required("required"),
+  password:yup.string().required("required"),
+  location:yup.string().required("required"),
+  occupation:yup.string().required("required"),
+  picture:yup.string().required("required")
+});
 
 function Copyright(props) {
   return (

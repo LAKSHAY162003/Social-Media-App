@@ -10,6 +10,7 @@ import {presistStore,persistReducer,FLUSH,REHYDRATE,PAUSE,PURGE,REGISTER} from "
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import persistStore from 'redux-persist/es/persistStore';
+import { BrowserRouter } from 'react-router-dom';
 
 // So idea /concept is that : all the state will be stored inside the local storage !!
 // so that even if user closes the brwoser and comes again
@@ -39,7 +40,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
     <PersistGate loading={null} persistor={persistStore(store)}>
+    <BrowserRouter>
     <App />
+    </BrowserRouter>
     </PersistGate>
     </Provider>
   </React.StrictMode>

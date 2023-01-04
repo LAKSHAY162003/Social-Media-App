@@ -36,6 +36,9 @@ export const verifyToken = (req, res, next) => {
                 // one that is being authenticated is same or not !!
 
                 next();
+                // basically next() means next callback jo bhi hai
+                // argument me !!! of the fnc in which it is passed
+                // as an argument !!
             })
         }
 

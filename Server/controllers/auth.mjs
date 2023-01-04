@@ -27,6 +27,7 @@ dotenv.config();
 
 export const register =(req, res) => {
         const { firstName, lastName, email, password, picturePath, location, occupation, friends } = req.body; // Destructuring !! 
+        console.log(picturePath);
         const saltRounds = 10
         bcrypt.hash(password, saltRounds, function(err, hash) {
             if(err){

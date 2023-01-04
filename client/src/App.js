@@ -4,18 +4,18 @@ import Profile from './scenes/profilePage/index.jsx';
 import Navbar from './scenes/navbar/index.jsx';
 import Widget from './scenes/widgets/index.jsx';
 
-import {BrowserRouter,Navigate,Routes,Route} from "react-router-dom";
-import { useMemo } from 'react';
+import {BrowserRouter,Routes,Route, Navigate} from "react-router-dom";
+import { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {createTheme} from "@mui/material";
 import {ThemeProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
 import { themeSettings } from './theme.js';
 import {Register} from "./scenes/loginPage/register.jsx"
-
+import { useNavigate } from 'react-router-dom';
 
 function App() {
-
+  
   // So concept is that : this is a hook present in the 
   // react-redux and is used to : subscribe to a state property
   // that is jaise hi wo update hogi hame automatically pata chal jayega !!
@@ -31,20 +31,21 @@ function App() {
   // So every time this component re renders : ye fnc chalta and performance ko slow down 
   // karta !!
   
+  const isAuth=useSelector((state)=> state.token);
+  // const navigate=useNavigate();
   return (
     <div className="app">
-      <BrowserRouter>
-      
+    
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <Routes>
           <Route path="/" element={<Login/>}></Route>
-          <Route path="/register" element={<Register/>}></Route>
-          <Route path="/home" element={<Home/>}></Route>
-          <Route path="/profile/:userId" element={<Profile/>}></Route>
+          <Route path="/register" element={<Login/>}></Route>
+          <Route path="/home" element={isAuth ? <Home/> :<Navigate to="/"/>}></Route>
+          <Route path="/profile/:userId" element={isAuth ? <Profile/> : <Navigate to="/"/>}></Route>
         </Routes>
         </ThemeProvider>
-      </BrowserRouter>
+        
     </div>
   );
 }
