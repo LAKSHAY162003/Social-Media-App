@@ -11,7 +11,7 @@ import {createTheme} from "@mui/material";
 import {ThemeProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
 import { themeSettings } from './theme.js';
-
+import {Register} from "./scenes/loginPage/register.jsx"
 
 
 function App() {
@@ -39,6 +39,7 @@ function App() {
         <CssBaseline/>
         <Routes>
           <Route path="/" element={<Login/>}></Route>
+          <Route path="/register" element={<Register/>}></Route>
           <Route path="/home" element={<Home/>}></Route>
           <Route path="/profile/:userId" element={<Profile/>}></Route>
         </Routes>

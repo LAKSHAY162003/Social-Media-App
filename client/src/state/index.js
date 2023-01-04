@@ -19,7 +19,7 @@ export const authSlice=createSlice({
                 oldState.mode="dark";
             }
             else{
-                oldState.mode="dark";
+                oldState.mode="light";
             }
         },
         setLogin:(state,action)=>{

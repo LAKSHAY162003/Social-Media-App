@@ -12,6 +12,14 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@emotion/react';
+
+import BedtimeIcon from '@mui/icons-material/Bedtime';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { IconButton } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setMode } from '../state';
+import { dark } from '@mui/material/styles/createPalette';
 
 function Copyright() {
   return (
@@ -26,9 +34,10 @@ function Copyright() {
   );
 }
 
-const theme = createTheme();
 
 export default function SignInSide() {
+  const dispatch = useDispatch();
+  const theme = useTheme();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -43,6 +52,7 @@ export default function SignInSide() {
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
+
         <Grid
           item
           xs={false}
@@ -67,9 +77,19 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
+            
+            <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+              <IconButton onClick={() => {
+                dispatch(setMode());
+              }}>
+                {theme.palette.mode === "dark" ? (
+                  <BedtimeIcon sx={{ fontSize: "25px" }} />
+                ) : (
+                  <LightModeIcon sx={{ color: dark, fontSize: "25px" }} />
+                )}
+              </IconButton>
             </Avatar>
+
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
@@ -113,7 +133,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
