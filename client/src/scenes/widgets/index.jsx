@@ -21,10 +21,9 @@ export default function Widget() {
     const background = theme.palette.background.default;
     const primaryLight = theme.palette.primary.light;
     const alt = theme.palette.background.alt;
-
     const user=useSelector((state)=>state.user);
   return (
-    <Card sx={{ maxWidth: 305}} >
+    <Card sx={{ maxWidth: 305,margin:"auto"}} >
       
       <CardActionArea>
         <CardMedia

@@ -17,6 +17,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setPost } from '../state';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -30,7 +31,7 @@ const ExpandMore = styled((props) => {
 
 export default function PictureCard(props) {
     const navigate=useNavigate();
-    const likeCount=Object.keys(props.element.likes).length;
+    const [likeCount,setLikeCount]=React.useState(Object.keys(props.element.likes).length);
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -38,7 +39,7 @@ export default function PictureCard(props) {
     const currentUserId=useSelector((state)=> state.user._id);
     const token=useSelector((state)=>state.token)
     const [picUser,setPicUser]=React.useState({});
-    const isLiked=Boolean(props.element.likes[currentUserId]);
+    const [isLiked,setIsLiked]=React.useState(Boolean(props.element.likes[currentUserId]));
     // console.log(isLiked);
     const findUser=async()=>{
         // console.log(props.element.userId);
@@ -54,7 +55,24 @@ export default function PictureCard(props) {
         const data=await response.json();
         setPicUser(data);
     }
-    
+    // console.log(currentUserId);
+    const handleLike=async()=>{
+        const post=await fetch("http://localhost:3001/posts/"+props.element._id+"/like",{
+            method: "PATCH",
+            headers: { 'Content-Type': 'application/json',Authorization: `Bearer ${token}` },
+            body:JSON.stringify({userId:currentUserId})
+        });
+        const data=await post.json();
+        // console.log(data);
+        // console.log(isLiked);
+        if(isLiked){
+            setLikeCount((likeCount)=>(likeCount-1));
+        }
+        else{
+            setLikeCount((likeCount)=>(likeCount+1));
+        }
+        setIsLiked(!isLiked);
+    }
     useEffect(()=>{
         findUser();
     },[]);
@@ -90,7 +108,9 @@ export default function PictureCard(props) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                <IconButton onClick={()=>{
+                    handleLike();
+                }} aria-label="add to favorites">
                     <FavoriteIcon />
                 </IconButton>
                 <Typography variant="h3" color="text.secondary">
