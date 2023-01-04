@@ -24,7 +24,7 @@ export const likePost=async(req,res)=>{
     // jab frontend ayega tab dekhenge !!
         const givenPost=await Posts.findById(id);
     // now : we need to : check if this post is liked or not by this guy !!
-    
+        
         const likes=givenPost.likes;
         if(likes.has(userId)){
             likes.delete(userId);
