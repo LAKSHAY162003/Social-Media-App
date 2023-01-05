@@ -31,6 +31,7 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import MenuIcon from '@mui/icons-material/Menu';
+import axios from "axios";
 const Navbar = () => {
 
     const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -45,6 +46,8 @@ const Navbar = () => {
     // this is a hook present in material ui to tell if the size of the 
     // screen is within the range specified in the arguments or not !!
 
+    const [searchValue,setSearchValue]=useState("");
+    const token=useSelector((state)=>state.token);
     const theme = useTheme();// this is an object !!
 
     const neutralLight = theme.palette.neutral.light;
@@ -57,7 +60,15 @@ const Navbar = () => {
     // and themes : as mentioned on the material ui site !!
 
     // const fullName=`${user.firstName}${user.lastName}`;
-
+    const Search = async () => {
+        console.log("Hello");
+        // const response=await fetch(`http://localhost:3001/users/${value}`,{
+        //     method:"GET",
+        //     Authorization:`Bearer ${token}`
+        // });
+        // const profileData=await response.json();
+        // console.log(profileData);
+    }
 
     const handleClick = () => {
         dispatch(setMode());
@@ -66,133 +77,138 @@ const Navbar = () => {
     // sx={{}} aise custom styles doge !!
     return (
         <div>
-        <Container maxWidth="sm">
-            <Box>
-                <AppBar sx={{ backgroundColor: `${background}`}}>
-                    {/* This toolbar will be giving a padding from both ends !! */}
-                    <Toolbar>
-                        <IconButton>
-                            <EarbudsIcon />
-                        </IconButton>
-                        <Typography sx={{flexGrow: "0.2"}} color="primary.main" fontWeight="bold" variant="h2">FaceGram ❤️</Typography>
-                        {isNonMobileScreens && (
-                            <FlexBetween
-                                backgroundColor={neutralLight}
-                                borderRadius="9px"
-                                gap="3rem"
-                                padding="0.1rem 1.5rem"
-                            >
-                                <InputBase placeholder="Search..." />
-                                <IconButton>
-                                    <PersonSearchIcon />
-                                </IconButton>
-                            </FlexBetween>
-                        )}
-                        <Typography sx={{ flexGrow: "1" }}></Typography>
-                        {/* Desktop menu */}
-
-                        {isNonMobileScreens ? <Stack direction="row" spacing={2}>
-
-                            <IconButton onClick={() => {
-                                dispatch(setMode())
-                                console.log(mode);
-                            }}>
-                                {theme.palette.mode === "dark" ? (
-                                    <BedtimeIcon sx={{ fontSize: "25px" }} />
-                                ) : (
-                                    <LightModeIcon sx={{ color: dark, fontSize: "25px" }} />
-                                )}
+            <Container maxWidth="sm">
+                <Box>
+                    <AppBar sx={{ backgroundColor: `${background}` }}>
+                        {/* This toolbar will be giving a padding from both ends !! */}
+                        <Toolbar>
+                            <IconButton>
+                                <EarbudsIcon />
                             </IconButton>
-
-                            <IconButton><MarkunreadIcon /></IconButton>
-                            <IconButton><NotificationsActiveIcon /></IconButton>
-                            <IconButton ><ContactSupportIcon /></IconButton>
-                            <FormControl variant="standard" value={user.firstName}>
-                                <Select
-                                    value={user.firstName}
-                                    sx={{
-                                        backgroundColor: neutralLight,
-                                        width: "150px",
-                                        borderRadius: "0.25rem",
-                                        p: "0.25rem 1rem",
-                                        "& .MuiSvgIcon-root": {
-                                            pr: "0.25rem",
-                                            width: "3rem",
-                                        },
-                                        "& .MuiSelect-select:focus": {
-                                            backgroundColor: neutralLight,
-                                        },
-                                    }}
-                                    input={<InputBase />}
+                            <Typography sx={{ flexGrow: "0.2" }} color="primary.main" fontWeight="bold" variant="h2">FaceGram ❤️</Typography>
+                            {isNonMobileScreens && (
+                                <FlexBetween
+                                    backgroundColor={neutralLight}
+                                    borderRadius="9px"
+                                    gap="3rem"
+                                    padding="0.1rem 1.5rem"
                                 >
-                                    <MenuItem value={user.firstName}>
-                                        <Typography>{user.firstName} </Typography>
-                                    </MenuItem>
-                                    <MenuItem onClick={() => {
-                                        dispatch(setLogout())
-                                        navigate("/");    
-                                    }}>Log Out</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Stack> : <IconButton
-                            onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
-                        >
-                            <MenuIcon />
-                        </IconButton>}
+                                    <form>
+                                    <InputBase onChange={(event)=>{
+                                        setSearchValue(event.target.value);
+                                    }} placeholder="Search..." value={searchValue}/>
+                                    <IconButton onClick={() => { Search() }}
+                                    >
+                                        <PersonSearchIcon />
+                                    </IconButton>
+                                    </form>
+                                </FlexBetween>
+                            )}
+                            <Typography sx={{ flexGrow: "1" }}></Typography>
+                            {/* Desktop menu */}
 
-                        
+                            {isNonMobileScreens ? <Stack direction="row" spacing={2}>
 
-                    </Toolbar>
-                    {isMobileMenuToggled && !isNonMobileScreens && (
+                                <IconButton onClick={() => {
+                                    dispatch(setMode())
+                                    console.log(mode);
+                                }}>
+                                    {theme.palette.mode === "dark" ? (
+                                        <BedtimeIcon sx={{ fontSize: "25px" }} />
+                                    ) : (
+                                        <LightModeIcon sx={{ color: dark, fontSize: "25px" }} />
+                                    )}
+                                </IconButton>
+
+                                <IconButton><MarkunreadIcon /></IconButton>
+                                <IconButton><NotificationsActiveIcon /></IconButton>
+                                <IconButton ><ContactSupportIcon /></IconButton>
+                                <FormControl variant="standard" value={user.firstName}>
+                                    <Select
+                                        value={user.firstName}
+                                        sx={{
+                                            backgroundColor: neutralLight,
+                                            width: "150px",
+                                            borderRadius: "0.25rem",
+                                            p: "0.25rem 1rem",
+                                            "& .MuiSvgIcon-root": {
+                                                pr: "0.25rem",
+                                                width: "3rem",
+                                            },
+                                            "& .MuiSelect-select:focus": {
+                                                backgroundColor: neutralLight,
+                                            },
+                                        }}
+                                        input={<InputBase />}
+                                    >
+                                        <MenuItem value={user.firstName}>
+                                            <Typography>{user.firstName} </Typography>
+                                        </MenuItem>
+                                        <MenuItem onClick={() => {
+                                            dispatch(setLogout())
+                                            navigate("/");
+                                        }}>Log Out</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Stack> : <IconButton
+                                onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+                            >
+                                <MenuIcon />
+                            </IconButton>}
+
+
+
+                        </Toolbar>
+                        {isMobileMenuToggled && !isNonMobileScreens && (
                             <Stack direction="column" spacing={2}>
 
-                            <IconButton onClick={() => {
-                                dispatch(setMode())
-                                console.log(mode);
-                            }}>
-                                {theme.palette.mode === "dark" ? (
-                                    <BedtimeIcon sx={{ fontSize: "25px" }} />
-                                ) : (
-                                    <LightModeIcon sx={{ color: dark, fontSize: "25px" }} />
-                                )}
-                            </IconButton>
+                                <IconButton onClick={() => {
+                                    dispatch(setMode())
+                                    console.log(mode);
+                                }}>
+                                    {theme.palette.mode === "dark" ? (
+                                        <BedtimeIcon sx={{ fontSize: "25px" }} />
+                                    ) : (
+                                        <LightModeIcon sx={{ color: dark, fontSize: "25px" }} />
+                                    )}
+                                </IconButton>
 
-                            <IconButton><MarkunreadIcon /></IconButton>
-                            <IconButton><NotificationsActiveIcon /></IconButton>
-                            <IconButton ><ContactSupportIcon /></IconButton>
-                            <FormControl sx={{justifyContent:"center",alignItems:"center"}}variant="standard" value="Lakshay ">
-                                <Select
-                                    value="Lakshay "
-                                    sx={{
-                                        backgroundColor: neutralLight,
-                                        width: "150px",
-                                        borderRadius: "0.25rem",
-                                        p: "0.25rem 1rem",
-                                        "& .MuiSvgIcon-root": {
-                                            pr: "0.25rem",
-                                            width: "3rem",
-                                        },
-                                        "& .MuiSelect-select:focus": {
+                                <IconButton><MarkunreadIcon /></IconButton>
+                                <IconButton><NotificationsActiveIcon /></IconButton>
+                                <IconButton ><ContactSupportIcon /></IconButton>
+                                <FormControl sx={{ justifyContent: "center", alignItems: "center" }} variant="standard" value="Lakshay ">
+                                    <Select
+                                        value="Lakshay "
+                                        sx={{
                                             backgroundColor: neutralLight,
-                                        },
-                                    }}
-                                    input={<InputBase />}
-                                >
-                                    <MenuItem value="Lakshay ">
-                                        <Typography>Lakshay </Typography>
-                                    </MenuItem>
-                                    <MenuItem onClick={() => {
-                                        dispatch(setLogout())
-                                        navigate("/");    
-                                    }}>Log Out</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Stack>
+                                            width: "150px",
+                                            borderRadius: "0.25rem",
+                                            p: "0.25rem 1rem",
+                                            "& .MuiSvgIcon-root": {
+                                                pr: "0.25rem",
+                                                width: "3rem",
+                                            },
+                                            "& .MuiSelect-select:focus": {
+                                                backgroundColor: neutralLight,
+                                            },
+                                        }}
+                                        input={<InputBase />}
+                                    >
+                                        <MenuItem value="Lakshay ">
+                                            <Typography>Lakshay </Typography>
+                                        </MenuItem>
+                                        <MenuItem onClick={() => {
+                                            dispatch(setLogout())
+                                            navigate("/");
+                                        }}>Log Out</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Stack>
                         )}
-                </AppBar>
-            </Box>
-        </Container>
-        <Outlet/>
+                    </AppBar>
+                </Box>
+            </Container>
+            <Outlet />
         </div>
     )
 }

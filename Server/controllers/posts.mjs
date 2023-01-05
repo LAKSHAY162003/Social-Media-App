@@ -63,9 +63,9 @@ export const createPost=async(req,res)=>{
    try{
         const {userId,description,picturePath}=req.body;
         // these are the fields in the form for upload !!
-
+        
         const user=await User.findById(userId);
-        console.log(user);
+      
         const obj=new Posts({
             userId,
             description,
@@ -78,7 +78,13 @@ export const createPost=async(req,res)=>{
             comments:[]
         });
         await obj.save();
-        res.status(201).json(obj);
+        const posts=await Posts.find(); // will get all the posts !!
+        const arr=new Array();
+        Object.keys(posts).forEach(function(key, index) {
+            arr.push(posts[key]);
+        });
+        console.log(arr);
+        res.status(200).json(arr);
     }
     catch(err){
         res.status(500).json({errMessage:err});

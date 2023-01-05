@@ -8,6 +8,7 @@ import WidgetWrapper from "./widgetWrapper";
 import Widget from "../scenes/widgets";
 import { FriendWidget } from "../scenes/widgets/FriendWidget";
 import { Posts } from "../scenes/widgets/posts";
+import MyPostWidget from "../scenes/widgets/addPostWidget";
 
 export function UserInfo(){
     // fetch the data
@@ -26,7 +27,10 @@ export function UserInfo(){
         <Box sx={{padding:"2rem 3rem"}} flexBasis={isMobileScreen ?  undefined: "26%"}>
             <Widget/>  
         </Box>
+        
         <Box sx={{padding:"2rem 1rem"}} flexBasis={isMobileScreen ?  undefined: "26%"}>
+            <MyPostWidget/>
+            <br/><br/><br/>    
             <Posts/>  
         </Box>
         <Box sx={{padding:"2rem 3rem"}} flexBasis={isMobileScreen ?  undefined: "26%"}>

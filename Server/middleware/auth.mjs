@@ -4,7 +4,12 @@ dotenv.config();
 export const verifyToken = (req, res, next) => {
     
     let token;
-    if(req.method!=="PATCH"){
+    
+    if(req.method==="POST"){
+        // console.log(req);
+        token=req.rawHeaders[15];
+    }
+    else if(req.method!=="PATCH"){
         token = req.rawHeaders[9];
     }
     else{
