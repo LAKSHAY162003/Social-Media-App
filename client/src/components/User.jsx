@@ -25,7 +25,7 @@ export function UserInfo(){
         justifyContent="space-between"
       >
         <Box sx={{padding:"2rem 3rem"}} flexBasis={isMobileScreen ?  undefined: "26%"}>
-            <Widget/>  
+            <Widget isProfile={null} user={user}/>  
         </Box>
         
         <Box sx={{padding:"2rem 1rem"}} flexBasis={isMobileScreen ?  undefined: "26%"}>
